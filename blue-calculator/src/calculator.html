@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blue Calculator Suite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../src/assets/icons/calculator-icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6fa;
+            color: #222;
+        }
+        .brand-logo {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
+        .brand-logo .blue-e {
+            color: #00bfff !important;
+        }
+        .sticky-top {
+            z-index: 1030;
+        }
+        .navbar-nav .nav-link.active, .navbar-nav .nav-link:focus {
+            color: #1976d2 !important;
+            font-weight: 600;
+            border-bottom: 2px solid #00bfff;
+        }
+        .navbar-nav .nav-link {
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .dropdown-menu {
+            min-width: 200px;
+        }
+        main {
+            padding: 2.5rem 0 2rem 0;
+        }
+        .hero-section {
+            padding: 2.5rem 0 2rem 0;
+            background: url('../src/assets/images/hero-banner.webp') no-repeat center center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 18px;
+            margin-bottom: 2.5rem;
+            min-height: 340px; /* Add a fixed height for better image fit */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-blur-bg {
+            display: inline-block;
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(1px);
+            border-radius: 14px;
+            padding: 1.2rem 2.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 16px 0 rgba(31,38,135,0.07);
+        }
+        .hero-title {
+            font-size: 2.7rem;
+            font-weight: 700;
+            color: #1976d2;
+            letter-spacing: 1px;
+        }
+        .hero-desc {
+            color: #444;
+            font-size: 1.2rem;
+            max-width: 600px;
+        }
+        .feature-card {
+            border-radius: 16px;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+            background: #fff;
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+            padding: 1.5rem 1rem;
+            min-height: 220px;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        .feature-card:hover, .feature-card:focus-within {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+            border-color: #00bfff;
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #1976d2;
+            margin-bottom: 0.7rem;
+        }
+        .feature-title {
+            font-weight: 600;
+            color: #1976d2;
+            font-size: 1.2rem;
+        }
+        .feature-desc {
+            color: #555;
+            font-size: 1rem;
+            min-height: 48px;
+        }
+        .feature-launch {
+            margin-top: 1rem;
+        }
+        .info-tooltip {
+            color: #00bfff;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+        .calc-panel {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+            padding: 1.2rem 1.2rem 0.7rem 1.2rem;
+            max-width: 400px;
+            margin: 10px auto;
+        }
+        .quick-access {
+            position: fixed;
+            top: 165px;
+            right: 20px;
+            z-index: 1040;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.10);
+            padding: 0.5rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .quick-access-btn {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: none;
+            border-radius: 8px;
+            padding: 0.4rem 0.7rem;
+            font-size: 1.1rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .quick-access-btn.active, .quick-access-btn:hover {
+            background: #1976d2;
+            color: #fff;
+        }
+        .banner {
+            background: linear-gradient(90deg, #1976d2 60%, #00bfff 100%);
+            color: #fff;
+            border-radius: 14px;
+            padding: 2rem 1rem;
+            margin: 3rem 0 1rem 0;
+            text-align: center;
+        }
+        .banner .banner-title {
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .banner .banner-desc {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        footer {
+            background: #fff;
+            border-top: 1px solid #e3e3e3;
+            padding: 1.2rem 0 0.7rem 0;
+            margin-top: 0; /* Remove extra space above footer */
+        }
+        .footer-link {
+            color: #1976d2;
+            text-decoration: none;
+            margin-right: 1.2rem;
+        }
+        .footer-link:hover {
+            color: #00bfff;
+            text-decoration: underline;
+        }
+        .footer-link1 {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        .footer-link1:hover {
+            color: #00bfff;
+            text-decoration: underline;
+        }
+        .btn-calc {
+            border-radius: 10px;
+            font-size: 1.15rem;
+            font-weight: 500;
+            min-height: 44px;
+            margin-bottom: 4px;
+            box-shadow: 0 2px 8px 0 rgba(25, 118, 210, 0.07);
+            transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+            border: none;
+        }
+        .btn-calc.btn-primary, .btn-calc.btn-success, .btn-calc.btn-info {
+            background: linear-gradient(90deg, #1976d2 60%, #00bfff 100%);
+            color: #fff;
+        }
+        .btn-calc.btn-primary:hover, .btn-calc.btn-success:hover, .btn-calc.btn-info:hover {
+            background: linear-gradient(90deg, #00bfff 60%, #1976d2 100%);
+            color: #fff;
+        }
+        .btn-calc.btn-danger {
+            background: #ff5252;
+            color: #fff;
+        }
+        .btn-calc.btn-danger:hover {
+            background: #d32f2f;
+        }
+        .btn-calc.btn-secondary {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .btn-calc.btn-secondary:hover {
+            background: #bbdefb;
+            color: #1976d2;
+        }
+        .btn-calc.btn-light {
+            background: #f8fafc;
+            color: #1976d2;
+        }
+        .btn-calc.btn-light:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        /* Calculator panel improvements */
+        .calc-panel {
+            border: 2px solid #e3f2fd;
+            box-shadow: 0 6px 32px 0 rgba(25, 118, 210, 0.10);
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
+            border-radius: 18px;
+            background: #fafdff;
+            margin-bottom: 2rem;
+        }
+        .calc-panel h5 {
+            color: #1976d2;
+            font-weight: 700;
+        }
+        .calc-panel input[type="text"], .calc-panel input[type="number"] {
+            background: #e3f2fd;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #1976d2;
+            font-weight: 500;
+            opacity: 1;
+        }
+        .calc-panel input[type="text"]:focus, .calc-panel input[type="number"]:focus {
+            background: #fff;
+            border: 2px solid #1976d2;
+            outline: none;
+        }
+        .calc-panel label {
+            color: #1976d2;
+            font-weight: 500;
+        }
+        .calc-panel .form-control:disabled, .calc-panel .form-control[readonly] {
+            background: #e3f2fd;
+            color: #1976d2;
+            opacity: 1;
+        }
+        .calc-panel .bmi-result, .calc-panel .unit-result, .calc-panel .tax-result, .calc-panel .currency-result, .calc-panel .date-result {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: #1976d2;
+            font-weight: 600;
+        }
+        .bmi-under { color: #ffb300; font-weight: 600; }    /* Amber */
+        .bmi-normal { color: #43a047; font-weight: 600; }   /* Green */
+        .bmi-over { color: #1976d2; font-weight: 600; }     /* Blue */
+        .bmi-obese { color: #e53935; font-weight: 600; }    /* Red */
+        @media (max-width: 991px) {
+            .quick-access { display: none; }
+        }
+        @media (max-width: 600px) {
+            .calc-panel { max-width: 100%; }
+            .hero-title { font-size: 2rem; }
+            .banner { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Navbar -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <div class="container">
+                <a class="navbar-brand brand-logo" href="#" onclick="showSection('landing', this)">
+                    Blu<span class="blue-e">e Calculator</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav align-items-lg-center gap-3">
+                        <li title="Home" class="nav-item">
+                            <a class="nav-link active" id="nav-home" href="#" onclick="showSection('landing', this)">Home</a>
+                        </li>
+                        <li title="Features" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="nav-features" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Features
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="openTool('basic'); setActiveNav('nav-features')"><i class="bi bi-calculator"></i>&nbsp;Basic Calculator</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="openTool('scientific'); setActiveNav('nav-features')"><i class="bi bi-calculator"></i>&nbsp;Scientific Calculator</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="openTool('bmi'); setActiveNav('nav-features')"><i class="bi bi-activity"></i>&nbsp;BMI Calculator</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="openTool('unit'); setActiveNav('nav-features')"><i class="bi bi-arrows-fullscreen"></i>&nbsp;Unit Converter</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="openTool('tax'); setActiveNav('nav-features')"><i class="bi bi-briefcase"></i>&nbsp;Tax Calculator</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="openTool('currency'); setActiveNav('nav-features')"><i class="bi bi-currency-exchange"></i>&nbsp;Currency Converter</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="openTool('date'); setActiveNav('nav-features')"><i class="bi bi-calendar-date"></i>&nbsp;Date Calculator</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a title="About Us" class="nav-link" id="nav-about" href="#" onclick="showSection('about', this)">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a title="Contact Us" class="nav-link" id="nav-contact" href="mailto:info@bluecalculator.com" onclick="showSection('contact', this)">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Quick Access Panel (Desktop only) -->
+    <div class="quick-access d-none d-lg-flex" id="quickAccessPanel">
+        <button title="Basic Calculator" class="quick-access-btn" onclick="openTool('basic')">🧮</button>
+        <button title="Scientific Calculator" class="quick-access-btn" onclick="openTool('scientific')">📐</button>
+        <button title="BMI Calculator" class="quick-access-btn" onclick="openTool('bmi')">💪</button>
+        <button title="Unit Converter" class="quick-access-btn" onclick="openTool('unit')">📏</button>
+        <button title="Tax Calculator" class="quick-access-btn" onclick="openTool('tax')">💰</button>
+        <button title="Currency Converter" class="quick-access-btn" onclick="openTool('currency')">💱</button>
+        <button title="Date Calculator" class="quick-access-btn" onclick="openTool('date')">📅</button>
+    </div>
+
+    <!-- Main -->
+    <main class="container">
+        <!-- Landing Page Section -->
+        <section id="landing-section">
+            <div class="hero-section text-center mb-5">
+                <div class="hero-blur-bg mx-auto mb-3">
+                    <div class="hero-title mb-2">All-in-One Calculator Suite</div>
+                    <div class="hero-desc mx-auto">
+                        Welcome to <span class="fw-bold">Blu</span><span class="text-info fw-bold">e Calculator</span> — your modern, responsive, and easy-to-use web app for all your calculation needs. 
+                        From simple math to advanced scientific functions, health, finance, and more, everything is just a click away.
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary px-4 py-2" onclick="showSection('features', document.getElementById('nav-features'))">Explore Features</a>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <h4 class="mb-3 fw-bold" style="color: #1976d2;">Featured Tools</h4>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" tabindex="0" onclick="openTool('basic')">
+                        <div class="feature-icon">🧮</div>
+                        <div class="feature-title">Basic Calculator</div>
+                        <div class="feature-desc">Standard arithmetic operations with a clean, intuitive interface.</div>
+                        <button class="btn btn-outline-primary feature-launch mt-2" onclick="openTool('basic');event.stopPropagation();">Launch</button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" tabindex="0" onclick="openTool('scientific')">
+                        <div class="feature-icon">📐</div>
+                        <div class="feature-title">Scientific Calculator
+                            <i class="bi bi-info-circle info-tooltip" data-bs-toggle="tooltip" title="Includes trigonometry, logs, powers, and more."></i>
+                        </div>
+                        <div class="feature-desc">Advanced functions for science, engineering, and math.</div>
+                        <button class="btn btn-outline-primary feature-launch mt-2" onclick="openTool('scientific');event.stopPropagation();">Launch</button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" tabindex="0" onclick="openTool('bmi')">
+                        <div class="feature-icon">💪</div>
+                        <div class="feature-title">BMI Calculator</div>
+                        <div class="feature-desc">Calculate your Body Mass Index and get instant health feedback.</div>
+                        <button class="btn btn-outline-primary feature-launch mt-2" onclick="openTool('bmi');event.stopPropagation();">Launch</button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" tabindex="0" onclick="openTool('unit')">
+                        <div class="feature-icon">📏</div>
+                        <div class="feature-title">Unit Converter</div>
+                        <div class="feature-desc">Convert between metric and imperial units for length, mass, and more.</div>
+                        <button class="btn btn-outline-primary feature-launch mt-2" onclick="openTool('unit');event.stopPropagation();">Launch</button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" tabindex="0" onclick="openTool('tax')">
+                        <div class="feature-icon">💰</div>
+                        <div class="feature-title">Tax Calculator
+                            <i class="bi bi-info-circle info-tooltip" data-bs-toggle="tooltip" title="Estimate your income-based taxes."></i>
+                        </div>
+                        <div class="feature-desc">Estimate your taxes quickly and easily.</div>
+                        <button class="btn btn-outline-primary feature-launch mt-2" onclick="openTool('tax');event.stopPropagation();">Launch</button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" tabindex="0" onclick="openTool('currency')">
+                        <div class="feature-icon">💱</div>
+                        <div class="feature-title">Currency Converter</div>
+                        <div class="feature-desc">Convert currencies using up-to-date exchange rates.</div>
+                        <button class="btn btn-outline-primary feature-launch mt-2" onclick="openTool('currency');event.stopPropagation();">Launch</button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" tabindex="0" onclick="openTool('date')">
+                        <div class="feature-icon">📅</div>
+                        <div class="feature-title">Date Calculator</div>
+                        <div class="feature-desc">Compute date differences or add/subtract days with ease.</div>
+                        <button class="btn btn-outline-primary feature-launch mt-2" onclick="openTool('date');event.stopPropagation();">Launch</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features-section" style="display:none;">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold mb-2" style="color:#1976d2;">Calculator Features</h2>
+                <p class="text-muted mb-4">Choose a calculator below. Each tool opens in a dedicated panel for focused use.</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="openTool('basic')">
+                        <div class="feature-icon"><i class="bi bi-calculator"></i></div>
+                        <div class="feature-title">Basic Calculator</div>
+                        <div class="feature-desc">Perform standard arithmetic operations with a clean, intuitive interface.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="openTool('scientific')">
+                        <div class="feature-icon"><i class="bi bi-calculator"></i></div>
+                        <div class="feature-title">Scientific Calculator</div>
+                        <div class="feature-desc">Advanced functions including trigonometry, logarithms, powers, and more.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="openTool('bmi')">
+                        <div class="feature-icon"><i class="bi bi-heart-pulse"></i></div>
+                        <div class="feature-title">BMI Calculator</div>
+                        <div class="feature-desc">Calculate your Body Mass Index and get instant health feedback.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="openTool('unit')">
+                        <div class="feature-icon"><i class="bi bi-arrow-left-right"></i></div>
+                        <div class="feature-title">Unit Converter</div>
+                        <div class="feature-desc">Convert between metric and imperial units for length, mass, and more.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="openTool('tax')">
+                        <div class="feature-icon"><i class="bi bi-cash-coin"></i></div>
+                        <div class="feature-title">Tax Calculator</div>
+                        <div class="feature-desc">Estimate your income-based taxes quickly and easily.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="openTool('currency')">
+                        <div class="feature-icon"><i class="bi bi-currency-exchange"></i></div>
+                        <div class="feature-title">Currency Converter</div>
+                        <div class="feature-desc">Convert currencies using up-to-date exchange rates.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="feature-card text-center" onclick="openTool('date')">
+                        <div class="feature-icon"><i class="bi bi-calendar-date"></i></div>
+                        <div class="feature-title">Date Calculator</div>
+                        <div class="feature-desc">Compute date differences or add/subtract days with ease.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-section" style="display:none;">
+            <div class="container py-4">
+                <div class="row align-items-center mb-4">
+                    <!-- Creator Image and Info -->
+                    <div class="col-12 col-md-4 text-center mb-4 mb-md-0">
+                        <img src="../src/assets/images/carlos1.png" alt="Carlos Reyes - Creator" class="img-fluid rounded-circle shadow" style="max-width: 280px; border: 4px solid #e3f2fd;">
+                        <div class="mt-3">
+                            <h5 class="fw-bold mb-1" style="color:#1976d2;">Carlos Emmanuel Reyes</h5>
+                            <div class="text-muted small mb-2">Creator &amp; Developer</div>
+                            <p class="text-muted small mb-0">
+                                Carlos is a passionate web developer and designer from the Philippines, dedicated to building accessible and user-friendly tools for everyone. He created Blue Calculator to help students, professionals, and everyday users solve problems faster and smarter.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- About Blue Calculator -->
+                    <div class="col-12 col-md-8">
+                        <h2 class="fw-bold mb-2" style="color:#1976d2;">About Blue Calculator</h2>
+                        <p class="text-muted mb-3">
+                            <b>Blue Calculator</b> is a modern, multi-tool web application designed to make calculations easy, fast, and accessible for everyone.<br>
+                            Whether you need to crunch numbers, convert units, or estimate taxes, Blue Calculator has you covered.
+                        </p>
+                        <hr class="my-3">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 mb-3">
+                                <h5 class="fw-semibold" style="color:#1976d2;"><i class="bi bi-lightbulb"></i> Our Mission</h5>
+                                <p class="text-muted small mb-2">
+                                    To empower students, professionals, and everyday users with a reliable, all-in-one calculation platform that is always accessible, accurate, and easy to use.
+                                </p>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3">
+                                <h5 class="fw-semibold" style="color:#1976d2;"><i class="bi bi-people"></i> Who Is It For?</h5>
+                                <p class="text-muted small mb-2">
+                                    Blue Calculator is perfect for students, teachers, engineers, accountants, health enthusiasts, and anyone who needs quick and accurate calculations on any device.
+                                </p>
+                            </div>
+                        </div>
+                        <hr class="my-3">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 mb-3">
+                                <h5 class="fw-semibold" style="color:#1976d2;"><i class="bi bi-stars"></i> Key Features</h5>
+                                <ul class="text-muted small mb-0 ps-3">
+                                    <li>✔️ Basic & Scientific Calculators</li>
+                                    <li>✔️ BMI, Tax, Currency, and Unit Converters</li>
+                                    <li>✔️ Date Calculator and more</li>
+                                    <li>✔️ Fast, accurate, and mobile-friendly</li>
+                                    <li>✔️ Clean, distraction-free interface</li>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3">
+                                <h5 class="fw-semibold" style="color:#1976d2;"><i class="bi bi-shield-check"></i> Privacy & Security</h5>
+                                <p class="text-muted small mb-2">
+                                    Your data is never stored. All calculations are performed instantly in your browser for maximum privacy and security.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-8 text-center text-md-start mb-2 mb-md-0">
+                        <span class="text-muted small">
+                            <b>Version:</b> 2.0 &nbsp; | &nbsp; <b>Created by:</b> Carlos Reyes &nbsp; | &nbsp; <b>Contact:</b>
+                            <a href="mailto:info@bluecalculator.com" class="footer-link">info@bluecalculator.com</a>
+                        </span>
+                    </div>
+                    <div class="col-12 col-md-4 text-center text-md-end">
+                        <a href="#" class="btn btn-outline-primary px-4" onclick="showSection('features', document.getElementById('nav-features'))">
+                            Explore Features
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-section" style="display:none;">
+            <div class="container py-5">
+                <div class="row g-4 align-items-stretch position-relative">
+                    <!-- Contact Form -->
+                    <div class="col-12 col-md-6 position-relative" style="z-index:1;">
+                        <div class="card shadow-sm h-100 border-0" style="background: rgba(255,255,255,0.97);">
+                            <div class="card-body">
+                                <h4 class="fw-bold mb-2" style="color:#1976d2;">Contact us</h4>
+                                <div style="width:50px;height:4px;background:linear-gradient(90deg,#1976d2,#00bfff);border-radius:2px;margin-bottom:1.2rem;"></div>
+                                <p class="text-muted mb-4">Reach out to us for any inquiry</p>
+                                <form onsubmit="event.preventDefault(); alert('Thank you for reaching out! We will get back to you soon.'); this.reset();">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="Full name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" placeholder="Your email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <textarea class="form-control" rows="4" placeholder="Message" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 fw-semibold" style="background:linear-gradient(90deg,#1976d2,#00bfff);border:none;">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Calculator Icon (instead of map) with shadow and gradient border -->
+                    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center position-relative" style="z-index:1;">
+                        <div class="w-100 text-center">
+                            <div>
+                                <img src="../src/assets/icons/calculator-icon.png" alt="Calculator Icon" class="img-fluid" style="max-height: 380px; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contact Info Row -->
+                <div class="row mt-4 g-4 text-center">
+                    <div class="col-12 col-md-4">
+                        <div class="d-flex flex-column align-items-center">
+                            <div style="font-size:2.2rem; color:#1976d2; background:#e3f2fd; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px 0 rgba(31,38,135,0.07);">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div class="fw-semibold mt-2" style="color:#1976d2;">Location</div>
+                            <div class="text-muted small">Philippines</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="d-flex flex-column align-items-center">
+                            <div style="font-size:2.2rem; color:#1976d2; background:#e3f2fd; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px 0 rgba(31,38,135,0.07);">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <div class="fw-semibold mt-2" style="color:#1976d2;">Email</div>
+                            <div class="text-muted small">info@bluecalculator.com</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="d-flex flex-column align-items-center">
+                            <div style="font-size:2.2rem; color:#1976d2; background:#e3f2fd; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px 0 rgba(31,38,135,0.07);">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <div class="fw-semibold mt-2" style="color:#1976d2;">Phone</div>
+                            <div class="text-muted small">+63 900 000 0000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terms & Conditions Section -->
+        <section id="terms-section" style="display:none;">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-9">
+                        <div class="card shadow-sm border-0 mb-2">
+                            <div class="card-body">
+                                <h2 class="fw-bold mb-3" style="color:#1976d2;">
+                                    <i class="bi bi-file-earmark-text me-2"></i>Terms &amp; Conditions
+                                </h2>
+                                <p class="text-muted">
+                                    <b>Blue Calculator</b> is an open-source project provided freely for educational and informational purposes. By using this website, you agree to the following simple terms:
+                                </p>
+                                <hr>
+                                <ul class="text-muted mb-3 ps-3">
+                                    <li>This service is provided "as is" with no warranty or guarantee of accuracy or fitness for any particular purpose.</li>
+                                    <li>You may use, modify, and share the code under the terms of the open-source license (MIT or as specified in the repository).</li>
+                                    <li>No account, login, or user data is required or collected.</li>
+                                    <li>Do not use Blue Calculator for unlawful activities or to harm others.</li>
+                                    <li>Attribution is appreciated if you use or fork this project.</li>
+                                </ul>
+                                <div class="alert alert-info mt-4 mb-0 small">
+                                    For more details, see the <a href="https://github.com/your-repo-link" target="_blank" class="footer-link1"> GitHub repository </a> or contact <a href="mailto:info@bluecalculator.com" class="footer-link1">info@bluecalculator.com</a>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Privacy Policy Section -->
+        <section id="privacy-section" style="display:none;">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-9">
+                        <div class="card shadow-sm border-0 mb-2">
+                            <div class="card-body">
+                                <h2 class="fw-bold mb-3" style="color:#1976d2;">
+                                    <i class="bi bi-shield-lock me-2"></i>Privacy Policy
+                                </h2>
+                                <p class="text-muted">
+                                    <b>Blue Calculator</b> is committed to privacy and transparency. This website does not collect, store, or process any personal information.
+                                </p>
+                                <hr>
+                                <ul class="text-muted mb-3 ps-3">
+                                    <li>No user accounts, logins, or registrations are required.</li>
+                                    <li>No cookies, analytics, or tracking scripts are used.</li>
+                                    <li>All calculations are performed instantly in your browser; nothing is sent to a server.</li>
+                                    <li>As an open-source project, you are free to inspect, modify, or self-host the code.</li>
+                                    <li>If you visit external links, their privacy policies apply.</li>
+                                </ul>
+                                <div class="alert alert-info mt-4 mb-0 small">
+                                    If you have privacy questions, contact <a href="mailto:info@bluecalculator.com" class="footer-link1">info@bluecalculator.com</a>.<br>
+                                    See the <a href="https://github.com/your-repo-link" target="_blank" class="footer-link1"> GitHub repository </a> for more technical details.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Panel (Dynamic) -->
+        <div id="calc-panel-container"></div>
+
+        <!-- Benefits Section -->
+        <section id="benefits-section" class="my-5">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold mb-2" style="color:#1976d2;">Why Choose Blue Calculator?</h2>
+                <p class="text-muted mb-3">Fast, Accurate, and Mobile-Friendly — designed for everyone!</p>
+            </div>
+            <div class="row justify-content-center g-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="mb-2" style="font-size:2.2rem; color:#00bfff;"><i class="bi bi-lightning-charge"></i></div>
+                        <div class="fw-semibold mb-1" style="color:#1976d2;">⚡Lightning Fast</div>
+                        <div class="text-muted text-center small">Instant results for all your calculations, no waiting time.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="mb-2" style="font-size:2.2rem; color:#00bfff;"><i class="bi bi-check2-circle"></i></div>
+                        <div class="fw-semibold mb-1" style="color:#1976d2;">🎯Accurate</div>
+                        <div class="text-muted text-center small">Reliable and precise computations for every tool.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="mb-2" style="font-size:2.2rem; color:#00bfff;"><i class="bi bi-phone"></i></div>
+                        <div class="fw-semibold mb-1" style="color:#1976d2;">📱Mobile-Friendly</div>
+                        <div class="text-muted text-center small">Works perfectly on any device — desktop, tablet, or phone.</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="mb-2" style="font-size:2.2rem; color:#00bfff;"><i class="bi bi-collection"></i></div>
+                        <div class="fw-semibold mb-1" style="color:#1976d2;">🧰All-in-One Suite</div>
+                        <div class="text-muted text-center small">Multiple calculators and converters in one easy platform.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Banner before Footer -->
+        <div class="banner">
+            <div class="banner-title">Ready to simplify your calculations?</div>
+            <div class="banner-desc">Try any of our calculators now, or bookmark Blue Calculator for your next math, finance, or science task!</div>
+            <a href="#" class="btn btn-light mt-3 px-4" onclick="showSection('features', document.getElementById('nav-features'))">Get Started</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-cta" style="background: #fff; border-top: 1px solid #e3e3e3;">
+        <!-- Newsletter CTA
+        <div class="container py-4 border-bottom" style="background: linear-gradient(90deg, #1976d2 60%, #00bfff 100%); border-radius: 0 0 14px 14px;">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-white mb-3 mb-md-0 text-center text-md-start">
+                    <strong style="font-size: 1.2rem;">Subscribe to our quarterly newsletter</strong>
+                </div>
+                <div class="col-md-6">
+                    <form class="d-flex justify-content-center justify-content-md-end" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                        <input type="email" class="form-control me-2" placeholder="Enter your email address" required style="max-width: 260px;">
+                        <button class="btn btn-light" type="submit" style="color: #1976d2;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        -->
+        <!-- Main Footer Content -->
+        <div class="container py-4">
+            <div class="row gy-4">
+                <div class="col-12 col-md-4">
+                    <div class="brand-logo mb-2">Blu<span class="blue-e">e Calculator</span></div>
+                    <div class="text-muted small mb-2">
+                        info@bluecalculator.com<br>
+                        <span>Philippines</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="fw-bold mb-2" style="color:#1976d2;">Blue</div>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link" onclick="showSection('landing', document.getElementById('nav-home'))">Home</a></li>
+                        <li><a href="#" class="footer-link" onclick="showSection('features', document.getElementById('nav-features'))">Features</a></li>
+                        <li><a href="#" class="footer-link" onclick="showSection('about', document.getElementById('nav-about'))">About</a></li>
+                        <li><a href="mailto:info@bluecalculator.com" class="footer-link" onclick="showSection('contact', document.getElementById('nav-contact'))">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="fw-bold mb-2" style="color:#1976d2;">Calculators</div>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link" onclick="openTool('basic')">Basic</a></li>
+                        <li><a href="#" class="footer-link" onclick="openTool('scientific')">Scientific</a></li>
+                        <li><a href="#" class="footer-link" onclick="openTool('bmi')">BMI</a></li>
+                        <li><a href="#" class="footer-link" onclick="openTool('unit')">Unit Converter</a></li>
+                        <li><a href="#" class="footer-link" onclick="openTool('tax')">Tax</a></li>
+                        <li><a href="#" class="footer-link" onclick="openTool('currency')">Currency</a></li>
+                        <li><a href="#" class="footer-link" onclick="openTool('date')">Date</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="fw-bold mb-2" style="color:#1976d2;">Follow</div>
+                    <div class="mb-2">
+                        <a href="#" class="footer-link me-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="footer-link me-2"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="footer-link me-2"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="footer-link me-2"><i class="bi bi-github"></i></a>
+                    </div>
+                    <div class="text-muted small">
+                        &copy; 2025 Blu<span class="blue-e">e</span> Calculator. All rights reserved.
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-wrap justify-content-between align-items-center small text-muted">
+                <div class="mb-2 mb-md-0">
+                    <a href="#" class="footer-link" onclick="showSection('terms', this)">Terms &amp; Conditions</a>
+                    <a href="#" class="footer-link" onclick="showSection('privacy', this)">Privacy Policy</a>
+                    <a href="#" class="footer-link">Sitemap</a>
+                </div>
+                <div>
+                    Powered by <span style="color:#1976d2;">Blue Calculator</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tooltip initialization
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+
+        // Section navigation and active nav
+        function setActiveNav(id) {
+            document.querySelectorAll('.navbar-nav .nav-link').forEach(el => el.classList.remove('active'));
+            if (id) document.getElementById(id).classList.add('active');
+        }
+        function showSection(section, navEl) {
+            document.getElementById('landing-section').style.display = section === 'landing' ? '' : 'none';
+            document.getElementById('features-section').style.display = section === 'features' ? '' : 'none';
+            document.getElementById('about-section').style.display = section === 'about' ? '' : 'none';
+            document.getElementById('contact-section').style.display = section === 'contact' ? '' : 'none';
+            document.getElementById('terms-section').style.display = section === 'terms' ? '' : 'none';
+            document.getElementById('privacy-section').style.display = section === 'privacy' ? '' : 'none';
+            document.getElementById('calc-panel-container').innerHTML = '';
+            setActiveNav(navEl ? navEl.id : null);
+            // Remove quick-access highlight when not in calculator
+            document.querySelectorAll('.quick-access-btn').forEach(btn => btn.classList.remove('active'));
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Open tool panel
+        function openTool(tool) {
+            document.getElementById('landing-section').style.display = 'none';
+            document.getElementById('features-section').style.display = 'none';
+            document.getElementById('about-section').style.display = 'none';
+            document.getElementById('contact-section').style.display = 'none';
+            document.getElementById('terms-section').style.display = 'none';
+            document.getElementById('privacy-section').style.display = 'none';
+            setActiveNav(null);
+            loadCalculator(tool);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Highlight quick access
+        function highlightQuickAccess(tool) {
+            document.querySelectorAll('.quick-access-btn').forEach(btn => btn.classList.remove('active'));
+            let map = {
+                basic: 0, scientific: 1, bmi: 2, unit: 3, tax: 4, currency: 5, date: 6
+            };
+            if (map[tool] !== undefined) {
+                document.querySelectorAll('.quick-access-btn')[map[tool]].classList.add('active');
+            }
+        }
+
+        // Load calculator panel dynamically (same as previous, with highlightQuickAccess)
+        let basicExpr = '', sciExpr = '';
+        function loadCalculator(tool) {
+            highlightQuickAccess(tool);
+            let html = '';
+            if (tool === 'basic') {
+                html = `
+                <div class="calc-panel">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom" style="gap: 10px;">
+                        <div class="d-flex align-items-center" style="gap: 8px;">
+                            <span style="font-size:1.6rem; color:#00bfff;"><i class="bi bi-calculator"></i></span>
+                            <h5 class="mb-0 fw-bold text-primary">Basic Calculator</h5>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showSection('landing', document.getElementById('nav-home'))"><i class="bi bi-house"></i></button>
+                    </div>
+                    <input type="text" id="basic-display" class="form-control mb-2" placeholder="0" readonly style="height: 50px; font-size: 1.5rem; text-align: right;">
+                    <div class="row g-1">
+                        <div class="col-3"><button class="btn btn-calc btn-danger w-100" onclick="basicClear()">C</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('%')">%</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-secondary w-100" onclick="basicBackspace()">⌫</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-primary w-100" onclick="basicAppend('/')">÷</button></div>
+            
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('7')">7</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('8')">8</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('9')">9</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-primary w-100" onclick="basicAppend('*')">×</button></div>
+            
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('4')">4</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('5')">5</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('6')">6</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-primary w-100" onclick="basicAppend('-')">−</button></div>
+            
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('1')">1</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('2')">2</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('3')">3</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-primary w-100" onclick="basicAppend('+')">+</button></div>
+            
+                        <div class="col-6"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('0')">0</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="basicAppend('.')">.</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-success w-100" onclick="basicCalculate()">Enter</button></div>
+                    </div>
+                </div>`;
+            }
+            else if (tool === 'scientific') {
+                html = `
+                <div class="calc-panel">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom" style="gap: 10px;">
+                        <div class="d-flex align-items-center" style="gap: 8px;">
+                            <span style="font-size:1.6rem; color:#00bfff;"><i class="bi bi-calculator"></i></span>
+                            <h5 class="mb-0 fw-bold text-primary">Scientific Calculator</h5>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showSection('landing', document.getElementById('nav-home'))"><i class="bi bi-house"></i></button>
+                    </div>
+                    <input type="text" id="sci-display" class="form-control mb-3" placeholder="0" readonly style="height: 50px; font-size: 1.3rem; text-align: right;">
+                    <div class="row g-1 mb-1">
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('sin(')">sin</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('cos(')">cos</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('tan(')">tan</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-danger w-100" onclick="sciClear()">C</button></div>
+                    </div>
+                    <div class="row g-1 mb-1">
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('log(')">log</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('ln(')">ln</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('sqrt(')">√</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-secondary w-100" onclick="sciBackspace()">⌫</button></div>
+                    </div>
+                    <div class="row g-1 mb-1">
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('7')">7</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('8')">8</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('9')">9</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-primary w-100" onclick="sciAppend('/')">÷</button></div>
+                    </div>
+                    <div class="row g-1 mb-1">
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('4')">4</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('5')">5</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('6')">6</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-primary w-100" onclick="sciAppend('*')">×</button></div>
+                    </div>
+                    <div class="row g-1 mb-1">
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('1')">1</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('2')">2</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('3')">3</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-primary w-100" onclick="sciAppend('-')">−</button></div>
+                    </div>
+                    <div class="row g-1 mb-1">
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('0')">0</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-light w-100" onclick="sciAppend('.')">.</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('^')">^</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-primary w-100" onclick="sciAppend('+')">+</button></div>
+                    </div>
+                    <div class="row g-1 mb-1">
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('(')">(</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend(')')">)</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-info w-100" onclick="sciAppend('pi')">π</button></div>
+                        <div class="col-3"><button class="btn btn-calc btn-success w-100" onclick="sciCalculate()">=</button></div>
+                    </div>
+                </div>`;
+            }
+            else if (tool === 'bmi') {
+                html = `
+                <div class="calc-panel">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom" style="gap: 10px;">
+                        <div class="d-flex align-items-center" style="gap: 8px;">
+                            <span style="font-size:1.6rem; color:#00bfff;"><i class="bi bi-activity"></i></span>
+                            <h5 class="mb-0 fw-bold text-primary">BMI Calculator</h5>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showSection('landing', document.getElementById('nav-home'))"><i class="bi bi-house"></i></button>
+                    </div>
+                    <form onsubmit="event.preventDefault(); calcBMI();">
+                        <div class="mb-2">
+                            <label for="bmi-weight" class="form-label mb-0">Weight (kg):</label>
+                            <input type="number" class="form-control" id="bmi-weight" min="1" step="any" placeholder="Enter your weight" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="bmi-height" class="form-label mb-0">Height (cm):</label>
+                            <input type="number" class="form-control" id="bmi-height" min="1" step="any" placeholder="Enter your height" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Calculate BMI</button>
+                        <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="bmiReset()">Reset</button>
+                    </form>
+                    <div id="bmi-result" class="bmi-result text-center"></div>
+                </div>`;
+            }
+            else if (tool === 'unit') {
+                html = `
+                <div class="calc-panel">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom" style="gap: 10px;">
+                        <div class="d-flex align-items-center" style="gap: 8px;">
+                            <span style="font-size:1.6rem; color:#00bfff;"><i class="bi bi-arrow-left-right"></i></span>
+                            <h5 class="mb-0 fw-bold text-primary">Unit Converter</h5>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showSection('landing', document.getElementById('nav-home'))"><i class="bi bi-house"></i></button>
+                    </div>
+                    <form onsubmit="event.preventDefault(); convertUnit();">
+                        <div class="mb-2">
+                            <input type="number" class="form-control" id="unit-value" placeholder="Value" required>
+                        </div>
+                        <div class="mb-2 row">
+                            <div class="col-6">
+                                <select class="form-select" id="unit-from">
+                                    <option value="m">Meters</option>
+                                    <option value="km">Kilometers</option>
+                                    <option value="cm">Centimeters</option>
+                                    <option value="in">Inches</option>
+                                    <option value="ft">Feet</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <select class="form-select" id="unit-to">
+                                    <option value="m">Meters</option>
+                                    <option value="km">Kilometers</option>
+                                    <option value="cm">Centimeters</option>
+                                    <option value="in">Inches</option>
+                                    <option value="ft">Feet</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Convert</button>
+                        <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="unitReset()">Reset</button>
+                    </form>
+                    <div id="unit-result" class="unit-result text-center"></div>
+                </div>`;
+            }
+            else if (tool === 'tax') {
+                html = `
+                <div class="calc-panel">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom" style="gap: 10px;">
+                        <div class="d-flex align-items-center" style="gap: 8px;">
+                            <span style="font-size:1.6rem; color:#00bfff;"><i class="bi bi-cash-coin"></i></span>
+                            <h5 class="mb-0 fw-bold text-primary">Tax Calculator</h5>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showSection('landing', document.getElementById('nav-home'))"><i class="bi bi-house"></i></button>
+                    </div>
+                    <form onsubmit="event.preventDefault(); calcTax();">
+                        <div class="mb-2">
+                            <label for="tax-income" class="form-label mb-0">Annual Income ($):</label>
+                            <input type="number" class="form-control" id="tax-income" min="0" step="any" placeholder="Enter your income" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Estimate Tax</button>
+                        <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="taxReset()">Reset</button>
+                    </form>
+                    <div id="tax-result" class="tax-result text-center"></div>
+                </div>`;
+            }
+            else if (tool === 'currency') {
+                html = `
+                <div class="calc-panel">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom" style="gap: 10px;">
+                        <div class="d-flex align-items-center" style="gap: 8px;">
+                            <span style="font-size:1.6rem; color:#00bfff;"><i class="bi bi-currency-exchange"></i></span>
+                            <h5 class="mb-0 fw-bold text-primary">Currency Converter</h5>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showSection('landing', document.getElementById('nav-home'))"><i class="bi bi-house"></i></button>
+                    </div>
+                    <form onsubmit="event.preventDefault(); convertCurrency();">
+                        <div class="mb-2">
+                            <input type="number" class="form-control" id="currency-amount" placeholder="Amount" required>
+                        </div>
+                        <div class="mb-2 row">
+                            <div class="col-6">
+                                <select class="form-select" id="currency-from">
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="PHP">PHP</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <select class="form-select" id="currency-to">
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="PHP">PHP</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Convert</button>
+                        <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="currencyReset()">Reset</button>
+                    </form>
+                    <div id="currency-result" class="currency-result text-center"></div>
+                </div>`;
+            }
+            else if (tool === 'date') {
+                html = `
+                <div class="calc-panel">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom" style="gap: 10px;">
+                        <div class="d-flex align-items-center" style="gap: 8px;">
+                            <span style="font-size:1.6rem; color:#00bfff;"><i class="bi bi-calendar-date"></i></span>
+                            <h5 class="mb-0 fw-bold text-primary">Date Calculator</h5>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showSection('landing', document.getElementById('nav-home'))"><i class="bi bi-house"></i></button>
+                    </div>
+                    <form onsubmit="event.preventDefault(); calcDate();">
+                        <div class="mb-2">
+                            <label class="form-label mb-0">Start Date:</label>
+                            <input type="date" class="form-control" id="date-start" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label mb-0">End Date:</label>
+                            <input type="date" class="form-control" id="date-end" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Calculate Difference</button>
+                        <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="dateReset()">Reset</button>
+                    </form>
+                    <div id="date-result" class="date-result text-center"></div>
+                </div>`;
+            }
+            document.getElementById('calc-panel-container').innerHTML = html;
+        }
+        function basicAppend(val) {
+            basicExpr += val;
+            document.getElementById('basic-display').value = basicExpr;
+        }
+        function basicClear() {
+            basicExpr = '';
+            document.getElementById('basic-display').value = '';
+        }
+        function basicBackspace() {
+            basicExpr = basicExpr.slice(0, -1);
+            document.getElementById('basic-display').value = basicExpr;
+        }
+        function basicCalculate() {
+            try {
+                let result = eval(basicExpr.replace(/÷/g, '/').replace(/×/g, '*'));
+                document.getElementById('basic-display').value = result;
+                basicExpr = result.toString();
+            } catch {
+                document.getElementById('basic-display').value = "Error";
+                basicExpr = '';
+            }
+        }
+        // Scientific Calculator Logic
+        function sciAppend(val) {
+            if (val === 'pi') {
+                sciExpr += Math.PI.toFixed(8);
+            } else {
+                sciExpr += val;
+            }
+            document.getElementById('sci-display').value = sciExpr;
+        }
+        function sciClear() {
+            sciExpr = '';
+            document.getElementById('sci-display').value = '';
+        }
+        function sciBackspace() {
+            sciExpr = sciExpr.slice(0, -1);
+            document.getElementById('sci-display').value = sciExpr;
+        }
+        function sciCalculate() {
+            try {
+                let result = sciEvaluate(sciExpr);
+                document.getElementById('sci-display').value = result;
+                sciExpr = result.toString();
+            } catch {
+                document.getElementById('sci-display').value = "Error";
+                sciExpr = '';
+            }
+        }
+        function sciEvaluate(exp) {
+            exp = exp.replace(/(\d+)\s*([a-zA-Z\(])/g, '$1*$2');
+            exp = exp.replace(/sin\(/g, 'Math.sin(deg2rad(');
+            exp = exp.replace(/cos\(/g, 'Math.cos(deg2rad(');
+            exp = exp.replace(/tan\(/g, 'Math.tan(deg2rad(');
+            exp = exp.replace(/log\(/g, 'Math.log10(');
+            exp = exp.replace(/ln\(/g, 'Math.log(');
+            exp = exp.replace(/sqrt\(/g, 'Math.sqrt(');
+            exp = exp.replace(/(\d+(\.\d+)?)\^(\d+(\.\d+)?)/g, 'Math.pow($1,$3)');
+            return Function('deg2rad', 'Math', 'return ' + exp)(deg2rad, Math);
+        }
+        function deg2rad(deg) {
+            return deg * Math.PI / 180;
+        }
+        // BMI Calculator Logic
+        function calcBMI() {
+            const w = parseFloat(document.getElementById('bmi-weight').value);
+            const h = parseFloat(document.getElementById('bmi-height').value) / 100;
+            if (w > 0 && h > 0) {
+                const bmi = w / (h * h);
+                let status = '';
+                let statusClass = '';
+                if (bmi < 18.5) {
+                    status = 'Underweight';
+                    statusClass = 'bmi-under';
+                } else if (bmi < 25) {
+                    status = 'Normal weight';
+                    statusClass = 'bmi-normal';
+                } else if (bmi < 30) {
+                    status = 'Overweight';
+                    statusClass = 'bmi-over';
+                } else {
+                    status = 'Obese';
+                    statusClass = 'bmi-obese';
+                }
+                document.getElementById('bmi-result').innerHTML = `Your BMI is <b>${bmi.toFixed(2)}</b> (<span class="${statusClass}">${status}</span>)`;
+            } else {
+                document.getElementById('bmi-result').innerHTML = '';
+            }
+        }
+        // ...existing code...
+        function bmiReset() {
+            document.getElementById('bmi-weight').value = '';
+            document.getElementById('bmi-height').value = '';
+            document.getElementById('bmi-result').innerHTML = '';
+        }
+        // Unit Converter Logic (length only, for demo)
+        const unitFactors = { m: 1, km: 1000, cm: 0.01, in: 0.0254, ft: 0.3048 };
+        function convertUnit() {
+            const val = parseFloat(document.getElementById('unit-value').value);
+            const from = document.getElementById('unit-from').value;
+            const to = document.getElementById('unit-to').value;
+            if (!isNaN(val)) {
+                const meters = val * unitFactors[from];
+                const result = meters / unitFactors[to];
+                document.getElementById('unit-result').innerHTML = `${val} ${from} = <b>${result.toFixed(4)}</b> ${to}`;
+            } else {
+                document.getElementById('unit-result').innerHTML = '';
+            }
+        }
+        function unitReset() {
+            document.getElementById('unit-value').value = '';
+            document.getElementById('unit-result').innerHTML = '';
+        }
+        // Tax Calculator Logic (simple flat tax for demo)
+        function calcTax() {
+            const income = parseFloat(document.getElementById('tax-income').value);
+            if (!isNaN(income)) {
+                let tax = 0;
+                if (income <= 10000) tax = income * 0.1;
+                else if (income <= 30000) tax = 1000 + (income - 10000) * 0.15;
+                else tax = 4000 + (income - 30000) * 0.2;
+                document.getElementById('tax-result').innerHTML = `Estimated Tax: <b>$${tax.toFixed(2)}</b>`;
+            } else {
+                document.getElementById('tax-result').innerHTML = '';
+            }
+        }
+        function taxReset() {
+            document.getElementById('tax-income').value = '';
+            document.getElementById('tax-result').innerHTML = '';
+        }
+        // Currency Converter Logic (demo, static rates)
+        const currencyRates = {
+            USD: { USD: 1, EUR: 0.92, PHP: 58 },
+            EUR: { USD: 1.09, EUR: 1, PHP: 63 },
+            PHP: { USD: 0.017, EUR: 0.016, PHP: 1 }
+        };
+        function convertCurrency() {
+            const amt = parseFloat(document.getElementById('currency-amount').value);
+            const from = document.getElementById('currency-from').value;
+            const to = document.getElementById('currency-to').value;
+            if (!isNaN(amt)) {
+                const result = amt * currencyRates[from][to];
+                document.getElementById('currency-result').innerHTML = `${amt} ${from} = <b>${result.toFixed(2)}</b> ${to}`;
+            } else {
+                document.getElementById('currency-result').innerHTML = '';
+            }
+        }
+        function currencyReset() {
+            document.getElementById('currency-amount').value = '';
+            document.getElementById('currency-result').innerHTML = '';
+        }
+        // Date Calculator Logic
+        function calcDate() {
+            const start = new Date(document.getElementById('date-start').value);
+            const end = new Date(document.getElementById('date-end').value);
+            if (start && end && !isNaN(start) && !isNaN(end)) {
+                const diff = Math.abs(end - start);
+                const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('date-result').innerHTML = `Difference: <b>${days}</b> day(s)`;
+            } else {
+                document.getElementById('date-result').innerHTML = '';
+            }
+        }
+        function dateReset() {
+            document.getElementById('date-start').value = '';
+            document.getElementById('date-end').value = '';
+            document.getElementById('date-result').innerHTML = '';
+        }
+
+        // Start on landing
+        showSection('landing');
+    </script>
+</body>
+</html>
